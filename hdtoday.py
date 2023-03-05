@@ -90,20 +90,24 @@ class HDToday:
     def insert_movie(self, post_data: dict) -> int:
         try:
             timeupdate = self.get_timeupdate()
+            genre_names = post_data.get("genre", [])
+            country_names = post_data.get("country", [])
+            for name in country_names:
+                if name in genre_names:
+                    genre_names.remove(name)
+            duration = post_data.get("duration", "")
             movie = {
                 "name": post_data.get("title", ""),
                 "origin_name": post_data.get("title", ""),
                 "thumb": post_data.get("poster_url", ""),
                 "keyword": post_data.get("title", ""),
-                "genre": self.get_slug_list_from(
-                    table="genre", names=post_data.get("genre", [])
-                ),
+                "genre": self.get_slug_list_from(table="genre", names=genre_names),
                 "cast": json.dumps(post_data.get("cast", [])),
                 "country": self.get_slug_list_from(
-                    table="country", names=post_data.get("country", [])
+                    table="country", names=country_names
                 ),
                 "director": json.dumps(post_data.get("director", [])),
-                "duration": post_data.get("duration", ""),
+                "duration": f"{duration} min" if duration else "",
                 "trailer": ""
                 if not post_data.get("title", "")
                 else "https://www.youtube.com/embed/" + post_data.get("youtube_id", ""),
