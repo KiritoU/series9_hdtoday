@@ -157,7 +157,12 @@ class HDToday:
             episode_name = episode.get("title")
             episode_links = episode.get("links")
             # episodeName = episodeName.replace("Episoden", "").strip()
-            episode_name = episode_name.strip()
+            episode_name = (
+                episode_name.strip()
+                .replace("\n", "")
+                .replace("\t", " ")
+                .replace("\r", " ")
+            )
             if episode_links:
                 episode_links = [
                     link if link.startswith("https:") else "https:" + link
@@ -213,6 +218,7 @@ class HDToday:
         self.validate_movie_episodes()
 
         data = [{"season_name": 1, "episode_list": self.get_episode_data()}]
+
         data = json.dumps(data)
 
         be_episode_data = database.select_or_insert(
