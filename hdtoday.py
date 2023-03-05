@@ -223,9 +223,9 @@ class HDToday:
         episode_data = (
             episode_data.decode() if isinstance(episode_data, bytes) else episode_data
         )
-        with open("json/diff.txt", "w") as f:
-            print(data, file=f)
-            print(episode_data, file=f)
+        # with open("json/diff.txt", "w") as f:
+        #     print(data, file=f)
+        #     print(episode_data, file=f)
 
         if episode_data != data:
             print("Diff")
