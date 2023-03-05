@@ -92,9 +92,12 @@ class HDToday:
             timeupdate = self.get_timeupdate()
             genre_names = post_data.get("genre", [])
             country_names = post_data.get("country", [])
+            cast_names = post_data.get("cast", [])
             for name in country_names:
                 if name in genre_names:
-                    genre_names.remove(name)
+                    genre_names = genre_names.remove(name)
+                if name in cast_names:
+                    cast_names.remove(name)
             duration = post_data.get("duration", "")
             movie = {
                 "name": post_data.get("title", ""),
@@ -102,7 +105,7 @@ class HDToday:
                 "thumb": post_data.get("poster_url", ""),
                 "keyword": post_data.get("title", ""),
                 "genre": self.get_slug_list_from(table="genre", names=genre_names),
-                "cast": json.dumps(post_data.get("cast", [])),
+                "cast": json.dumps(cast_names),
                 "country": self.get_slug_list_from(
                     table="country", names=country_names
                 ),
