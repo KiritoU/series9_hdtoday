@@ -48,7 +48,7 @@ class Crawler:
 
         except Exception as e:
             helper.error_log(
-                f"Failed to get episode information--{watching_href}--{e}",
+                f"Failed to get episode information--{watching_href}",
                 log_file="episodes.log",
             )
 
@@ -114,14 +114,15 @@ class Crawler:
 
                 HDToday(film_data, episodes_data).insert_film()
             except Exception as e:
-                helper.error_log(f"Failed to get href--{item}--{e}", "page.log")
+                helper.error_log(f"Failed for item in--{url}", "page.log")
 
         return 1
 
 
 if __name__ == "__main__":
     Crawler().crawl_page(
-        "https://series9.la/movie/filter/movie/all/all/all/all/latest/?page=599", "post"
+        "https://series9.la/movie/filter/movie/all/all/all/all/latest/?page=599",
+        "movie",
     )
     # Crawler_Site().crawl_episodes(
     #     1, "https://series9.la/film/country-queen-season-1/watching.html", "", "", ""

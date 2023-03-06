@@ -84,10 +84,6 @@ class Helper:
             return [watching_href, fondo_player]
 
         except Exception as e:
-            self.error_log(
-                msg=f"Failed to find watching_href and fondo_player--{str(soup)}--{e}",
-                log_file="helper.get_watching_href_and_fondo.log",
-            )
             return ["", ""]
 
     def get_season_number(self, strSeason: str) -> int:
@@ -113,7 +109,7 @@ class Helper:
 
         except Exception as e:
             self.error_log(
-                msg=f"Failed to find title and season number--{series9_title}--{e}",
+                msg=f"Failed to find title and season number--{series9_title}",
                 log_file="helper.get_title_and_season_number.log",
             )
 
@@ -133,10 +129,6 @@ class Helper:
             return [self.format_text(title), self.format_text(desc)]
 
         except Exception as e:
-            self.error_log(
-                msg=f"Failed to find title and description--{str(soup)}--{e}",
-                log_file="helper.get_title_and_description.log",
-            )
             return ["", ""]
 
     def get_poster_url(self, soup: BeautifulSoup) -> str:
@@ -151,10 +143,6 @@ class Helper:
             return poster_url
 
         except Exception as e:
-            self.error_log(
-                msg=f"Failed to get poster URL--{str(soup)}--{e}",
-                log_file="helper.get_poster_url.log",
-            )
             return ""
 
     def get_left_data(self, mvici: BeautifulSoup) -> dict:
@@ -202,10 +190,7 @@ class Helper:
             mvici_data = {**mvici_left_data, **mvici_right_data}
 
         except Exception as e:
-            self.error_log(
-                msg=f"Failed to get extra info--{str(soup)}--{e}",
-                log_file="helper.get_extra_info.log",
-            )
+            pass
 
         return mvici_data
 
@@ -445,7 +430,7 @@ class Helper:
 
             return post_id
         except Exception as e:
-            self.error_log(f"Failed to insert film--{e}")
+            self.error_log(f"Failed to insert film")
 
     def update_meta_key(self, post_id, meta_key, update_value, field) -> list:
         condition = f'post_id={post_id} AND meta_key="{meta_key}"'
@@ -588,10 +573,7 @@ class Helper:
             server = server.split(".")[0]
             return server.capitalize()
         except Exception as e:
-            self.error_log(
-                msg=f"Error getting server: {link}--{e}",
-                log_file="helper.get_server_from.log",
-            )
+            pass
 
         return f"Server {index}"
 

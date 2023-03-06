@@ -136,7 +136,7 @@ class HDToday:
         except Exception as e:
             print(e)
             return 0
-            # helper.error_log(f"Failed to insert film--{e}")
+            # helper.error_log(f"Failed to insert film")
 
     def insert_root_film(self) -> list:
         condition = f"""slug = '{slugify(self.film["post_title"])}' AND type='{self.film["post_type"]}'"""
