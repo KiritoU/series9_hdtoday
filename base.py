@@ -72,7 +72,7 @@ class Crawler:
 
         if not title:
             helper.error_log(
-                msg=f"No title was found--{href}", log_file="base.no_title.log"
+                log_msg=f"No title was found--{href}", log_file="base.no_title.log"
             )
             return
 
