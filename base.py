@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 
 from bs4 import BeautifulSoup
 
@@ -113,6 +114,8 @@ class Crawler:
                 )
 
                 HDToday(film_data, episodes_data).insert_film()
+
+                sleep(CONFIG.WAIT_BETWEEN_MOVIE)
             except Exception as e:
                 helper.error_log(f"Failed for item in--{url}", "page.log")
 
