@@ -11,16 +11,15 @@ crawler = Crawler()
 if __name__ == "__main__":
     i = 660
     while True:
-        # try:
-        crawled_page = crawler.crawl_page(
-            f"{CONFIG.SERIES9_MOVIES_LATEST_PAGE}?page={i}",
-            post_type="movie",
-        )
-        print(crawled_page)
-        if not crawled_page and i >= CONFIG.SERIES9_MOVIES_LAST_PAGE:
-            i = 2
-        else:
-            i += 1
-        # except Exception as e:
-        #     pass
-        time.sleep(CONFIG.WAIT_BETWEEN_ALL)
+        try:
+            crawled_page = crawler.crawl_page(
+                f"{CONFIG.SERIES9_MOVIES_LATEST_PAGE}?page={i}",
+                post_type="movie",
+            )
+            if not crawled_page and i >= CONFIG.SERIES9_MOVIES_LAST_PAGE:
+                i = 2
+            else:
+                i += 1
+        except Exception as e:
+            pass
+            time.sleep(CONFIG.WAIT_BETWEEN_ALL)
