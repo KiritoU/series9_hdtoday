@@ -9,7 +9,7 @@ logging.basicConfig(format="%(asctime)s %(levelname)s:%(message)s", level=loggin
 crawler = Crawler()
 
 if __name__ == "__main__":
-    i = 660
+    i = 2
     while True:
         try:
             crawled_page = crawler.crawl_page(
