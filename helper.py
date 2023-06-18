@@ -1,5 +1,6 @@
 import base64
 import os
+import random
 import time
 from datetime import datetime, timedelta
 from html import escape
@@ -39,8 +40,36 @@ class Helper:
             cmd = f"""grep -q "{log_msg}" {log_file} || {cmd}"""
         os.system(cmd)
 
+    def get_proxy(self) -> dict:
+        if Path("proxies.txt").is_file():
+            with open("proxies.txt", "r") as f:
+                proxies = [line.strip("\n") for line in f.readlines() if line]
+        else:
+            proxies = {}
+        if not proxies:
+            return {}
+        proxy = random.choice(proxies)
+        print(f"[+] Picked proxy: {proxy}")
+        host, port, username, password = proxy.split(":")
+        return {
+            "http": f"http://{username}:{password}@{host}:{port}",
+            "https": f"http://{username}:{password}@{host}:{port}",
+        }
+
     def download_url(self, url):
-        return requests.get(url, headers=self.get_header())
+        response = requests.get(
+            url, headers=self.get_header(), proxies=self.get_proxy()
+        )
+        for i in range(10):
+            if (
+                "Cache file" in response.text
+                and "could not be written" in response.text
+            ) or "Page not found" in response.text:
+                print(f"[-] {i} try was failed. Trying again...")
+                response = requests.get(
+                    url, headers=self.get_header(), proxies=self.get_proxy()
+                )
+        return response
 
     def format_text(self, text: str) -> str:
         return text.strip("\n").replace('"', "'").strip()
